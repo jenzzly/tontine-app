@@ -12,6 +12,7 @@ interface AuthState {
   
   // Actions
   login: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, fullName: string, phone: string, role?: UserRole) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
   updateUser: (data: Partial<User>) => Promise<void>;
@@ -38,6 +39,26 @@ export const useAuthStore = create<AuthState>()(
         } catch (error: any) {
           set({ 
             error: error.message || 'Login failed', 
+            isLoading: false,
+            isAuthenticated: false,
+            user: null,
+          });
+          throw error;
+        }
+      },
+
+      signUp: async (email: string, password: string, fullName: string, phone: string, role?: UserRole) => {
+        set({ isLoading: true, error: null });
+        try {
+          const { userData } = await authService.signUp(email, password, fullName, phone, role);
+          set({ 
+            user: userData, 
+            isAuthenticated: true, 
+            isLoading: false 
+          });
+        } catch (error: any) {
+          set({ 
+            error: error.message || 'Signup failed', 
             isLoading: false,
             isAuthenticated: false,
             user: null,

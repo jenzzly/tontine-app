@@ -110,9 +110,10 @@ export default function LoginScreen() {
           </TouchableOpacity>
 
           <View style={styles.footer}>
-            <Text style={styles.footerText}>
-              Contact your administrator for access credentials
-            </Text>
+            <Text style={styles.footerText}>Don't have an account? </Text>
+            <Link href="/(auth)/signup" style={styles.link}>
+              Sign Up
+            </Link>
           </View>
         </View>
       </ScrollView>

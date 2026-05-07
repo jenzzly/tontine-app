@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to get user role from users collection
+    function getUserRole() {
+      let userData = get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+      return userData.role;
+    }
+    
+    // Users collection - users can read their own data, admins can read all
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || getUserRole() == 'admin');
+      allow write: if isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Members collection
+    match /members/{memberId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && (getUserRole() == 'admin' || getUserRole() == 'management');
+      allow update: if isAuthenticated() && (getUserRole() == 'admin' || getUserRole() == 'management');
+      allow delete: if isAuthenticated() && getUserRole() == 'admin';
+    }
+    
+    // Contributions collection
+    match /contributions/{contributionId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && (getUserRole() == 'admin' || getUserRole() == 'management');
+      allow update: if isAuthenticated() && (getUserRole() == 'admin' || getUserRole() == 'management');
+      allow delete: if isAuthenticated() && getUserRole() == 'admin';
+    }
+    
+    // Loans collection
+    match /loans/{loanId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated(); // Any member can request a loan
+      allow update: if isAuthenticated() && (getUserRole() == 'admin' || getUserRole() == 'management');
+      allow delete: if isAuthenticated() && getUserRole() == 'admin';
+    }
+    
+    // Reports collection (if needed for stored reports)
+    match /reports/{reportId} {
+      allow read: if isAuthenticated() && (getUserRole() == 'admin' || getUserRole() == 'management');
+      allow write: if isAuthenticated() && getUserRole() == 'admin';
+    }
+  }
+}
