@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { Home, Users, FileText, User } from 'lucide-react-native';
+import { Home, Users, DollarSign, FileText, User, Wallet } from 'lucide-react-native';
 import { colors } from '@/utils/theme';
 
 export default function TabsLayout() {
@@ -18,7 +18,7 @@ export default function TabsLayout() {
           paddingTop: 8,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: '500',
         },
       }}
@@ -35,6 +35,20 @@ export default function TabsLayout() {
         options={{
           title: 'Members',
           tabBarIcon: ({ color, size }) => <Users size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="contributions"
+        options={{
+          title: 'Contributions',
+          tabBarIcon: ({ color, size }) => <DollarSign size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="loans"
+        options={{
+          title: 'Loans',
+          tabBarIcon: ({ color, size }) => <Wallet size={size} color={color} />,
         }}
       />
       <Tabs.Screen

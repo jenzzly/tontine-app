@@ -15,6 +15,7 @@ import { Link, router } from 'expo-router';
 import { useAuthStore } from '@/context/AuthContext';
 import { colors, spacing, fontSize, borderRadius } from '@/utils/theme';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react-native';
+import TontineLogo from '@/components/TontineLogo';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -45,8 +46,9 @@ export default function LoginScreen() {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.header}>
-          <Text style={styles.title}>Tontine App</Text>
-          <Text style={styles.subtitle}>SCDT Member Management</Text>
+          <TontineLogo size={100} />
+          <Text style={styles.title}>SCDT Tontine</Text>
+          <Text style={styles.subtitle}>Member Management System</Text>
         </View>
 
         <View style={styles.form}>

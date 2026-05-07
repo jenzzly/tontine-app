@@ -1,43 +1,57 @@
+```
 # Dependencies
 node_modules/
 
-# Expo
-.expo/
+# Build outputs
 dist/
-web-build/
+build/
+.next/
+out/
 
-# Environment
+# Environment variables
 .env
 .env.local
-.env.production
+*.env.*
 
-# Logs
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# OS files
-.DS_Store
-Thumbs.db
+*.pot
+*.po
+*~
+.pytest_cache/
+.mypy_cache/
 
 # IDE
-.idea/
 .vscode/
+.idea/
 *.swp
 *.swo
 
-# Testing
-coverage/
+# OS
+.DS_Store
+Thumbs.db
 
-# Build artifacts
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
-web-build/
+# Logs
+*.log
 
-# Metro
-.metro-health-check*
+# Temporary files
+*.tmp
+*.temp
+```

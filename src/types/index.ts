@@ -3,9 +3,10 @@ export type UserRole = 'admin' | 'management' | 'member';
 export interface User {
   id: string;
   email: string;
-  fullName: string;
-  phone: string;
+  fullName?: string;
+  phone?: string;
   role: UserRole;
+  memberId?: string; // Link to member profile if user is a member
   createdAt: Date;
   updatedAt: Date;
   isActive: boolean;
@@ -23,18 +24,24 @@ export interface Member {
   totalContributed: number;
   totalBorrowed: number;
   loanBalance: number;
+  outstandingBalance: number;
 }
+
+export type PaymentMethod = 'cash' | 'momo' | 'bank_transfer';
 
 export interface Contribution {
   id: string;
   memberId: string;
   memberName: string;
   amount: number;
-  paymentMethod: 'cash' | 'momo' | 'bank_transfer';
+  paymentMethod: PaymentMethod;
   date: Date;
   recordedBy: string;
   notes?: string;
+  createdAt: Date;
 }
+
+export type LoanStatus = 'pending' | 'approved' | 'rejected' | 'active' | 'completed' | 'overdue';
 
 export interface Loan {
   id: string;
@@ -45,15 +52,19 @@ export interface Loan {
   durationMonths: number;
   monthlyPayment: number;
   totalRepayment: number;
-  status: 'pending' | 'approved' | 'rejected' | 'active' | 'completed' | 'overdue';
+  status: LoanStatus;
   requestDate: Date;
   approvedDate?: Date;
   approvedBy?: string;
+  rejectedBy?: string;
+  rejectionReason?: string;
   dueDate: Date;
   remainingBalance: number;
   paidAmount: number;
   penalty: number;
   notes?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface LoanRepayment {
@@ -63,6 +74,7 @@ export interface LoanRepayment {
   date: Date;
   recordedBy: string;
   notes?: string;
+  createdAt: Date;
 }
 
 export interface TontineSummary {
@@ -74,6 +86,23 @@ export interface TontineSummary {
   totalLoanBalance: number;
   availableBalance: number;
   overdueLoans: number;
+}
+
+export interface ReportData {
+  totalContributions: number;
+  totalLoans: number;
+  activeLoans: number;
+  totalBalance: number;
+  memberContributions: Array<{
+    memberId: string;
+    memberName: string;
+    totalContributed: number;
+  }>;
+  loansSummary: {
+    active: Loan[];
+    completed: Loan[];
+    overdue: Loan[];
+  };
 }
 
 export interface Notification {
